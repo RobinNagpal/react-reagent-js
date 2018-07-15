@@ -7,6 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 function convertToReactComponent(element) {
   const first = element[0];
   switch (typeof first) {
+
     case "string": {
 
       // assuming its string content
@@ -15,17 +16,27 @@ function convertToReactComponent(element) {
       }
 
       let second = element[1];
+
+      let firstAndSecond;
+      let rest;
+
+      // second is a map(object - not array)
       if(!Array.isArray(second)) {
-        const args = [first, second];
-        args.push(convertToReactComponent(element[2]));
-        return React.createElement.call(args);
+        firstAndSecond = [first, second];
+        rest = element.slice(2);
       } else {
-        return React.createElement(first, {}, convertToReactComponent(element[2]));
+        // second is a array - empty props
+        firstAndSecond = [first, {}];
+        rest = element.slice(1);
       }
+      rest.forEach((subElement) => {
+        firstAndSecond.push(convertToReactComponent(subElement));
+      });
+      return React.createElement.apply(null, firstAndSecond);
     }
+
     case "function": {
-      return React.createElement(first, )
-      break;
+      return (convertToReactComponent(first.apply(null, element.slice(1))));
     }
 
     case "object" : {
