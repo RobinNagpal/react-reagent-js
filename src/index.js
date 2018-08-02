@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import Greeting from './components/create_react_class_example'
 // import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -62,5 +63,5 @@ const main = React.createElement(
   )
 );
 
-ReactDOM.render(main, document.getElementById('root'));
+ReactDOM.render(React.createElement(Greeting, {appName: 'Hello World'}), document.getElementById('root'));
 registerServiceWorker();
