@@ -23,9 +23,15 @@ const DIV = (props, children) => React.createElement(
 );
 
 const Greeting = createReactClass({
+  num: 0,
+  componentDidMount: function () {
+    window.setInterval(() => this.setState({number: this.num++}), 2000)
+  },
+
   render: function () {
-    const appName = this.props.appName;
-    return DIV({}, H1({}, Anc({"href": "#"}, appName)))
+    const appName = this.props && this.props.appName;
+    const number = this.state && this.state.number;
+    return DIV({}, H1({}, Anc({"href": "#"}, appName + " " + number)))
   }
 });
 
